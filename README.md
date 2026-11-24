@@ -25,6 +25,27 @@ open build/HapticPiano.app
 The build script uses `swiftc` and creates a minimal `.app` bundle. No third-party
 packages are required.
 
+## Install
+
+To download the tagged source, build it locally, and install the app to
+`~/Applications`, run:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install.sh | sh
+```
+
+The installer requires Xcode Command Line Tools and defaults to version
+`v0.1.0`. To install another tagged version or a different application folder:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install.sh | \
+  HAPTIC_PIANO_VERSION=v0.1.0 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
+```
+
+This installer builds from source; it does not download or run a prebuilt app.
+Review [`install.sh`](install.sh) before running it if you prefer not to pipe a
+remote script into a shell.
+
 ## How it works
 
 The haptic bridge adapts the motor-control approach from

@@ -25,6 +25,11 @@ open build/HapticPiano.app
 computer-keyboard input, octave switching, chords, reconnecting, and releasing
 notes after the app becomes inactive when the change affects playback or input.
 
+When changing `build.sh`, app-bundle paths, or source layout, also test the
+installer with `HAPTIC_PIANO_VERSION=<tag> ./install.sh`. The installer must
+continue to build a tagged source archive and install only to the selected
+application directory.
+
 ## Pull requests
 
 - Keep changes narrowly focused and explain their behavioral impact.
