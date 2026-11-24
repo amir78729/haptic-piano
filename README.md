@@ -22,8 +22,8 @@ xcode-select --install
 open build/HapticPiano.app
 ```
 
-The build script uses `swiftc` and creates a minimal `.app` bundle. No third-party
-packages are required.
+The build script uses Swift Package Manager and creates a minimal `.app` bundle.
+No third-party packages are required.
 
 ## Install
 
@@ -35,11 +35,11 @@ curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install
 ```
 
 The installer requires Xcode Command Line Tools and defaults to version
-`v0.1.0`. To install another tagged version or a different application folder:
+`v0.2.0`. To install another tagged version or a different application folder:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install.sh | \
-  HAPTIC_PIANO_VERSION=v0.1.0 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
+  HAPTIC_PIANO_VERSION=v0.2.0 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
 ```
 
 This installer builds from source; it does not download or run a prebuilt app.

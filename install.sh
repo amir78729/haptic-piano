@@ -2,7 +2,7 @@
 set -eu
 
 REPOSITORY="amir78729/haptic-piano"
-VERSION="${HAPTIC_PIANO_VERSION:-v0.1.0}"
+VERSION="${HAPTIC_PIANO_VERSION:-v0.2.0}"
 INSTALL_DIR="${HAPTIC_PIANO_INSTALL_DIR:-$HOME/Applications}"
 WORK_DIR="$(mktemp -d "${TMPDIR:-/tmp}/haptic-piano.XXXXXX")"
 

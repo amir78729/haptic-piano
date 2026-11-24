@@ -15,15 +15,8 @@ fi
 rm -rf "$APP"
 mkdir -p "$MACOS"
 
-swiftc \
-  -parse-as-library \
-  -O \
-  -framework SwiftUI \
-  -framework AppKit \
-  -framework Foundation \
-  -framework CoreFoundation \
-  "$ROOT/Sources/HapticPiano.swift" \
-  -o "$MACOS/HapticPiano"
+swift build --package-path "$ROOT" -c release --product HapticPiano
+cp "$ROOT/.build/release/HapticPiano" "$MACOS/HapticPiano"
 
 cat > "$CONTENTS/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
