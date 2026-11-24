@@ -21,7 +21,7 @@ trackpad for hardware testing.
 open build/HapticPiano.app
 ```
 
-`./check.sh` and `./build.sh` are the required checks for every change. Test mouse input,
+`make verify` is the required automated check for every change. Test mouse input,
 computer-keyboard input, octave switching, chords, reconnecting, and releasing
 notes after the app becomes inactive when the change affects playback or input.
 

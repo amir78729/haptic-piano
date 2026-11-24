@@ -18,12 +18,19 @@ trackpad haptic motor. It does not use the Mac speakers.
 
 ```sh
 xcode-select --install
-./build.sh
-open build/HapticPiano.app
+make run
 ```
 
-The build script uses Swift Package Manager and creates a minimal `.app` bundle.
-No third-party packages are required.
+The Makefile is the standard command interface. It uses Swift Package Manager
+and creates a minimal `.app` bundle with no third-party packages.
+
+```sh
+make build    # Create build/HapticPiano.app
+make test     # Check note calculations and keyboard mapping
+make verify   # Run checks and build the app bundle
+make install  # Build and install to ~/Applications
+make clean    # Remove build/ and .build/
+```
 
 ## Install
 
@@ -35,11 +42,11 @@ curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install
 ```
 
 The installer requires Xcode Command Line Tools and defaults to version
-`v0.2.0`. To install another tagged version or a different application folder:
+`v0.2.1`. To install another tagged version or a different application folder:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install.sh | \
-  HAPTIC_PIANO_VERSION=v0.2.0 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
+  HAPTIC_PIANO_VERSION=v0.2.1 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
 ```
 
 This installer builds from source; it does not download or run a prebuilt app.
