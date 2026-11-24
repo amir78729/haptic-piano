@@ -15,6 +15,8 @@ final class PlaybackCoordinator {
 
     private var mouseHeldNotes: Set<Int> = []
     private var keyboardHeldNotes: [UInt16: Int] = [:]
+    private var microtonalFrequency: Double?
+    private var microtonalLevel: Float = 0.72
     private var pulseTimer: Timer?
 
     func pressMouseNote(_ midi: Int) {
@@ -38,16 +40,36 @@ final class PlaybackCoordinator {
         updatePlayback()
     }
 
+    func startMicrotonalNote(frequency: Double, level: Float) {
+        microtonalFrequency = frequency
+        microtonalLevel = level
+        updatePlayback()
+    }
+
+    func updateMicrotonalNote(frequency: Double, level: Float) {
+        guard microtonalFrequency != nil else { return }
+        microtonalFrequency = frequency
+        microtonalLevel = level
+        playCurrentNotes()
+    }
+
+    func releaseMicrotonalNote() {
+        guard microtonalFrequency != nil else { return }
+        microtonalFrequency = nil
+        updatePlayback()
+    }
+
     func releaseAll() {
         mouseHeldNotes.removeAll()
         keyboardHeldNotes.removeAll()
+        microtonalFrequency = nil
         updatePlayback()
     }
 
     private func updatePlayback() {
         let activeNotes = mouseHeldNotes.union(keyboardHeldNotes.values)
         onActiveNotesChanged?(activeNotes)
-        if activeNotes.isEmpty {
+        if activeNotes.isEmpty && microtonalFrequency == nil {
             pulseTimer?.invalidate()
             pulseTimer = nil
         } else {
@@ -70,10 +92,15 @@ final class PlaybackCoordinator {
     }
 
     private func play(notes: Set<Int>) {
-        guard let player, !notes.isEmpty else { return }
+        guard let player else { return }
+        var tones = notes.sorted().map { HapticTone(frequency: PianoNote.frequency(forMIDI: $0), amplitude: 1.0) }
+        if let microtonalFrequency {
+            tones.append(HapticTone(frequency: microtonalFrequency, amplitude: 1.0))
+        }
+        guard !tones.isEmpty else { return }
         player.play(
-            tones: notes.sorted().map { HapticTone(frequency: PianoNote.frequency(forMIDI: $0), amplitude: 1.0) },
-            level: level,
+            tones: tones,
+            level: microtonalFrequency == nil ? level : microtonalLevel,
             durationMS: Self.actuationDurationMS
         )
     }

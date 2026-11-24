@@ -10,6 +10,10 @@ final class PianoStore: ObservableObject {
         didSet { playback.level = Float(volume) }
     }
     @Published var octave: Int = 4
+    @Published var microtonalSemitone: Int = 0
+    @Published private(set) var microtonalIsPlaying = false
+    @Published private(set) var microtonalPitchOffset: Double = 0
+    @Published private(set) var microtonalVolume: Double = 0.72
 
     private var engine: MultitouchHapticEngine?
     private let playback = PlaybackCoordinator()
@@ -58,6 +62,32 @@ final class PianoStore: ObservableObject {
 
     func releaseAll() {
         playback.releaseAll()
+        microtonalIsPlaying = false
+    }
+
+    func selectMicrotonalNote(_ semitone: Int) {
+        microtonalSemitone = semitone
+    }
+
+    func startMicrotonalNote() {
+        connect()
+        guard engine != nil else { return }
+        microtonalIsPlaying = true
+        microtonalPitchOffset = 0
+        microtonalVolume = volume
+        playback.startMicrotonalNote(frequency: microtonalFrequency, level: Float(microtonalVolume))
+    }
+
+    func updateMicrotonalNote(horizontalDelta: CGFloat, verticalDelta: CGFloat) {
+        guard microtonalIsPlaying else { return }
+        microtonalPitchOffset = min(12, max(-12, Double(horizontalDelta) / 200 * 12))
+        microtonalVolume = min(1, max(0, volume + Double(verticalDelta) / 200))
+        playback.updateMicrotonalNote(frequency: microtonalFrequency, level: Float(microtonalVolume))
+    }
+
+    func releaseMicrotonalNote() {
+        playback.releaseMicrotonalNote()
+        microtonalIsPlaying = false
     }
 
     func midiNote(for semitone: Int) -> Int {
@@ -85,5 +115,10 @@ final class PianoStore: ObservableObject {
         connect()
         guard engine != nil else { return }
         playback.pressKeyboardNote(keyCode: keyCode, midi: midiNote(for: semitone))
+    }
+
+    private var microtonalFrequency: Double {
+        let baseMIDI = midiNote(for: microtonalSemitone)
+        return PianoNote.frequency(forMIDI: baseMIDI) * pow(2, microtonalPitchOffset / 12)
     }
 }

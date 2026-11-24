@@ -42,11 +42,11 @@ curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install
 ```
 
 The installer requires Xcode Command Line Tools and defaults to version
-`v0.2.2`. To install another tagged version or a different application folder:
+`v0.2.3`. To install another tagged version or a different application folder:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/amir78729/haptic-piano/main/install.sh | \
-  HAPTIC_PIANO_VERSION=v0.2.2 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
+  HAPTIC_PIANO_VERSION=v0.2.3 HAPTIC_PIANO_INSTALL_DIR="$HOME/Applications" sh
 ```
 
 This installer builds from source; it does not download or run a prebuilt app.
@@ -95,6 +95,7 @@ sine tones.
 - Change octave with `-` and `+`.
 - Adjust motor level with the slider.
 - Use **Stop all notes** if a note remains active.
+- In the **Microtonal** tab, choose a base note, then click and hold the control surface. Move 200 points left or right to bend continuously down or up by one octave; move 200 points down or up to reach silence or full volume.
 
 ## Contributing
 
