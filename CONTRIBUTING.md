@@ -39,6 +39,19 @@ application directory.
 - State the macOS version and trackpad hardware used for testing in the pull
   request description.
 
+## Releases
+
+Push an annotated version tag after changes are merged to `main` to publish a
+DMG through GitHub Actions:
+
+```sh
+git tag -a v0.2.3 -m "Haptic Piano v0.2.3"
+git push origin v0.2.3
+```
+
+The workflow builds the app, packages `HapticPiano-<version>.dmg`, generates a
+SHA-256 checksum, and creates the matching GitHub Release.
+
 ## Bug reports
 
 Please include your macOS version, Mac model or external trackpad model,

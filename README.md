@@ -53,6 +53,14 @@ This installer builds from source; it does not download or run a prebuilt app.
 Review [`install.sh`](install.sh) before running it if you prefer not to pipe a
 remote script into a shell.
 
+## Releases
+
+Each pushed version tag, such as `v0.2.3`, automatically builds a DMG and
+publishes it to [GitHub Releases](https://github.com/amir78729/haptic-piano/releases).
+The DMG contains `HapticPiano.app`, an `Applications` shortcut, and a SHA-256
+checksum file. Releases are not code-signed or notarized, so macOS may require
+manual approval before opening the app.
+
 ## How it works
 
 The haptic bridge adapts the motor-control approach from

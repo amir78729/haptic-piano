@@ -1,5 +1,6 @@
 # Generated application bundle
 /build/
+/release/
 
 # macOS Finder metadata
 .DS_Store
