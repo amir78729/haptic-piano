@@ -3,6 +3,12 @@ import HapticPianoCore
 
 @MainActor
 final class PlaybackCoordinator {
+    // MultitouchSupport has no public stop call for an in-flight actuation.
+    // Longer overlapping windows reduce the audible re-attack while keeping
+    // note release and chord changes responsive.
+    private static let actuationDurationMS = 600.0
+    private static let refreshInterval = 0.5
+
     var onActiveNotesChanged: ((Set<Int>) -> Void)?
     var level: Float = 0.72
     var player: HapticPlaying?
@@ -52,7 +58,7 @@ final class PlaybackCoordinator {
 
     private func startPulseTimerIfNeeded() {
         guard pulseTimer == nil else { return }
-        pulseTimer = Timer.scheduledTimer(withTimeInterval: 0.105, repeats: true) { [weak self] _ in
+        pulseTimer = Timer.scheduledTimer(withTimeInterval: Self.refreshInterval, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.playCurrentNotes()
             }
@@ -68,7 +74,7 @@ final class PlaybackCoordinator {
         player.play(
             tones: notes.sorted().map { HapticTone(frequency: PianoNote.frequency(forMIDI: $0), amplitude: 1.0) },
             level: level,
-            durationMS: 125
+            durationMS: Self.actuationDurationMS
         )
     }
 }
